@@ -2,6 +2,7 @@
 
 namespace Swoft\Rpc\Client\Service;
 
+use Swoft\Rpc\Packer\EofTrait;
 use Swoft\Rpc\Server\Exception\RpcServerException;
 
 /**
@@ -81,6 +82,16 @@ class SyncServiceConnection extends AbstractServiceConnection
      */
     public function recv(): string
     {
-        return fread($this->connection, 1024);
+        $endOfStream = $this->getEof();
+        $returnValue = '';
+        while (!feof($this->connection)) {
+            $tmpValue = fgets($this->connection, 1024);
+            $returnValue .= $tmpValue;
+            if (strpos($returnValue, $endOfStream) !== false) {
+                break;
+            }
+        }
+
+        return $returnValue;
     }
 }
