@@ -2,8 +2,8 @@
 
 namespace Swoft\Rpc\Client\Service;
 
-use Swoft\Rpc\Packer\EofTrait;
 use Swoft\Rpc\Server\Exception\RpcServerException;
+use Swoft\Rpc\Packer\EofTrait;
 
 /**
  * Sync service connection
